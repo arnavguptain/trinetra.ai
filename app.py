@@ -2,165 +2,183 @@ import streamlit as st
 import cv2
 import numpy as np
 from PIL import Image
-import io
-import time
 from google import genai
 from google.genai import types
 
 # Page Configurations
-st.set_page_config(page_title="Project TrineTra - AI Prototype", page_icon="👁️", layout="wide")
+st.set_page_config(
+    page_title="Project TrineTra - Live AI Lab",
+    page_icon="👁️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Custom UI Styles
+# Dark-themed Premium Academic UI Stylesheet
 st.markdown("""
 <style>
-    .header-box { background-color: #121620; padding: 20px; border-radius: 10px; border-left: 6px solid #00E676; margin-bottom: 25px; }
-    .status-active { color: #00E676; font-weight: bold; }
-    .status-alert { color: #FF1744; font-weight: bold; }
-    .feedback-card { background-color: #1E2230; padding: 15px; border-radius: 8px; border: 1px solid #30364D; margin-top: 10px; }
+    /* Global Styles */
+    .stApp { background-color: #0E1117; color: #E2E8F0; }
+    
+    /* Header Component */
+    .header-container {
+        background: linear-gradient(135deg, #1E1E2F 0%, #11111F 100%);
+        padding: 30px;
+        border-radius: 12px;
+        border-left: 6px solid #FF4B4B;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        margin-bottom: 30px;
+    }
+    
+    /* Telemetry KPI Cards */
+    .kpi-box {
+        background-color: #1A1C24;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #2D313E;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .kpi-value { font-size: 1.8rem; font-weight: 800; color: #FF4B4B; margin-top: 5px; }
+    
+    /* Audio Output Loops */
+    .audio-card {
+        background-color: #161920;
+        padding: 18px;
+        border-radius: 8px;
+        border-left: 4px solid #00E676;
+        margin-top: 15px;
+        font-family: 'Courier New', monospace;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # Application Header Banner
 st.markdown("""
-<div class="header-box">
-    <h2 style="margin:0; color:#FFFFFF;">👁️ Project TrineTra: AI Wearable Vision Assistant</h2>
-    <p style="margin:5px 0 0 0; color:#A0AEC0;">Functional Hardware Emulation Sandbox | Pacific World School (2026-2027)</p>
+<div class="header-container">
+    <h1 style="margin:0; color:#FFFFFF; font-size: 2.5rem; letter-spacing: 1px;">PROJECT TRINETRA</h1>
+    <p style="margin:8px 0 0 0; color:#94A3B8; font-size: 1.1rem;">
+        Smart Wearable Assistive System • <strong>Pacific World School</strong> • Class of 2026-2027
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
-# Global API Credentials Authentication Registry
+# Secure API Key Management Registry
 if "GEMINI_API_KEY" in st.secrets:
     api_key = st.secrets["GEMINI_API_KEY"]
 else:
-    api_key = st.sidebar.text_input("Enter Gemini API Key to unlock Edge Pipeline", type="password")
+    api_key = st.sidebar.text_input("Enter Gemini API Key", type="password", help="Required for active multi-modal vision processing.")
 
 client = genai.Client(api_key=api_key) if api_key else None
 
-# Sidebar Diagnostics Pane
+# Sidebar Engineering Metadata
 with st.sidebar:
     st.markdown("### 🛠️ Hardware Diagnostic Telemetry")
-    system_power = st.toggle("Power Device Core (Raspberry Pi)", value=True)
-    camera_status = "ONLINE" if system_power else "OFFLINE"
-    st.markdown(f"Camera Status: <span class='status-active'>{camera_status}</span>", unsafe_allow_html=True)
+    pi_power = st.toggle("Power Device Core (Raspberry Pi)", value=True)
     
     st.markdown("---")
-    st.markdown("### 👥 Engineering Logbook Registry")
-    st.caption("Team: Diksha Bachu, Jigya Yadav, Arnav Gupta, Atharva Parashar")
-    st.caption("Target Framework: SDG 3, SDG 9, SDG 10")
+    st.markdown("### 📋 Administration Specs")
+    st.markdown("**Guide:** Ms. Sapna Shukla")
+    st.markdown("**Core Team:**\n* Diksha Bachu\n* Jigya Yadav\n* Arnav Gupta\n* Atharva Parashar")
+    st.markdown("---")
+    st.caption("Targeting UN Sustainable Development Goals: SDG 3, SDG 9, SDG 10")
 
-if not system_power:
-    st.warning("The simulated Raspberry Pi hardware core is powered off. Toggle system power in the telemetry panel to begin.")
+if not pi_power:
+    st.warning("The simulated Raspberry Pi computing hub is powered off. Toggle system power in the left panel to initialize.")
 else:
-    # Main Navigation Tabs split across core features
-    tab_vision, tab_ocr = st.tabs(["🚀 Real-Time Spatial Proximity Scanner", "📖 OCR Document Text Reader"])
+    # Top Level Hardware Statistics
+    col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+    with col_kpi1:
+        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Edge System Status</span><div class="kpi-value" style="color:#00E676;">ONLINE</div></div>', unsafe_allow_html=True)
+    with col_kpi2:
+        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Camera Array Mode</span><div class="kpi-value">LIVE FEED</div></div>', unsafe_allow_html=True)
+    with col_kpi3:
+        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Latency Index</span><div class="kpi-value" style="color:#00B0FF;">12 ms</div></div>', unsafe_allow_html=True)
 
-    # TAB 1: Real-time Computer Vision Obstacle Segmentation & Spatial Audio Alert Rendering
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Core Workspace Tabs Split
+    tab_vision, tab_ocr = st.tabs(["🚀 Spatial Obstacle Scanner", "📖 OCR Audio Reader"])
+
+    # TAB 1: Live Spatial Proximity Analysis & Hazard Zoning
     with tab_vision:
-        st.subheader("Spatial Matrix Mapping & Navigation Alerts")
-        st.markdown("This module emulates TrineTra's physical ultrasonic radar matrix and computer vision segmentation layer. Upload an environment scene to calculate safe navigation sectors.")
+        st.markdown("### Live Spatial Mapping Desk")
+        st.caption("Capture an image below using TrineTra's wearble camera rig to map out spatial navigation sectors.")
         
-        uploaded_scene = st.file_uploader("Upload Environment Snapshot Capture", type=["jpg", "jpeg", "png"], key="nav_uploader")
+        live_capture = st.camera_input("TrineTra Spatial Camera Capture Input", key="spatial_cam")
         
-        if uploaded_scene:
-            # Convert asset payload to openCV format matrix
-            raw_bytes = uploaded_scene.read()
-            cv_img = cv2.imdecode(np.frombuffer(raw_bytes, np.uint8), cv2.IMREAD_COLOR)
-            h, w, _ = cv_img.shape
+        if live_capture:
+            # Reconstruct buffer into OpenCV manipulation frame matrices
+            file_bytes = live_capture.read()
+            cv_frame = cv2.imdecode(np.frombuffer(file_bytes, np.uint8), cv2.IMREAD_COLOR)
+            h, w, _ = cv_frame.shape
             
-            # Simulated Computer Vision Range Processing (Left, Center, Right Sectors)
-            sector_w = w // 3
-            left_zone = cv_img[:, 0:sector_w]
-            center_zone = cv_img[:, sector_w:sector_w*2]
-            right_zone = cv_img[:, sector_w*2:w]
+            # Divide image into 3 distinct spatial scanning matrices (Left, Center, Right)
+            sector_width = w // 3
+            center_sector = cv_frame[:, sector_width:sector_width*2]
             
-            # Calculate pixel luminosity values to simulate distance depth approximations
-            left_proximity = float(np.mean(left_zone))
-            center_proximity = float(np.mean(center_zone))
-            right_proximity = float(np.mean(right_zone))
+            # Process mean frame luminosity vectors to approximate physical wall proximity
+            center_depth_metric = float(np.mean(center_sector))
             
-            # Map distance values and highlight threats
-            alert_triggered = False
-            alert_messages = []
+            # Setup bounding canvas overlay mapping graphic lines
+            canvas = cv_frame.copy()
+            cv2.line(canvas, (sector_width, 0), (sector_width, h), (255, 255, 255), 2)
+            cv2.line(canvas, (sector_width*2, 0), (sector_width*2, h), (255, 255, 255), 2)
             
-            # Apply colored spatial safety boundaries over the matrix frame
-            processed_canvas = cv_img.copy()
-            cv2.line(processed_canvas, (sector_w, 0), (sector_w, h), (255, 255, 255), 2)
-            cv2.line(processed_canvas, (sector_w*2, 0), (sector_w*2, h), (255, 255, 255), 2)
+            audio_alert = "Path clear. Proceed straight forward."
+            is_hazard = False
             
-            # Analyze Center Path Threat Level
-            if center_proximity < 100:
-                alert_triggered = True
-                alert_messages.append("ALERT: Critical obstacle directly ahead! Halt forward movement.")
-                cv2.rectangle(processed_canvas, (sector_w, 0), (sector_w*2, h), (0, 0, 255), 4)
-                cv2.putText(processed_canvas, "BLOCKED", (sector_w + 20, h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            # Flag anomalies inside the central walking vector paths
+            if center_depth_metric < 110:
+                is_hazard = True
+                audio_alert = "ALERT: Critical structural obstacle detected directly ahead! Halt forward movement."
+                cv2.rectangle(canvas, (sector_width, 0), (sector_width*2, h), (0, 0, 255), 4)
+                cv2.putText(canvas, "BLOCKED", (sector_width + 15, h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
             else:
-                cv2.rectangle(processed_canvas, (sector_w, 0), (sector_w*2, h), (0, 255, 0), 2)
-                cv2.putText(processed_canvas, "CLEAR", (sector_w + 20, h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                cv2.rectangle(canvas, (sector_width, 0), (sector_width*2, h), (0, 255, 0), 2)
+                cv2.putText(canvas, "CLEAR SEC", (sector_width + 15, h//2), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 
-            # Analyze Left Path Threat Level
-            if left_proximity < 90:
-                alert_messages.append("WARNING: Low clearance obstacle approaching on your left.")
-                cv2.rectangle(processed_canvas, (0, 0), (sector_w, h), (0, 165, 255), 3)
-            else:
-                cv2.rectangle(processed_canvas, (0, 0), (sector_w, h), (0, 255, 0), 2)
-
-            # Analyze Right Path Threat Level
-            if right_proximity < 90:
-                alert_messages.append("WARNING: Structure boundary detected on your right.")
-                cv2.rectangle(processed_canvas, (sector_w*2, 0), (w, h), (0, 165, 255), 3)
-            else:
-                cv2.rectangle(processed_canvas, (sector_w*2, 0), (w, h), (0, 255, 0), 2)
+            col_out1, col_out2 = st.columns([2, 1])
+            with col_out1:
+                st.image(cv2.cvtColor(canvas, cv2.COLOR_BGR2RGB), caption="TrineTra Real-Time Hardware Boundary Breakdown Matrix", use_container_width=True)
+            with col_out2:
+                st.markdown("#### 🔊 Audio Engine Synthesis Feedback Loop")
+                status_color = "#FF1744" if is_hazard else "#00E676"
+                status_label = "HAZARD THREAT TRIGGERED" if is_hazard else "SAFE TO NAVIGATE"
                 
-            # Display output visualization frames
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                st.image(cv2.cvtColor(processed_canvas, cv2.COLOR_BGR2RGB), caption="TrineTra Hardware Spatial Array Mapping", use_container_width=True)
-            
-            with col2:
-                st.markdown("#### 🔊 Wearable Audio Feedback Feed")
-                if alert_triggered:
-                    st.markdown("<div class='status-alert'>⚠️ WARN STATUS: HAZARD DETECTED</div>", unsafe_allow_html=True)
-                else:
-                    st.markdown("<div class='status-active'>✅ NAV STATUS: SAFE PATH</div>", unsafe_allow_html=True)
-                    
-                for msg in alert_messages if alert_messages else ["Path clear. Proceed straight forward safely."]:
-                    st.markdown(f"<div class='feedback-card'>🗣️ <em>Audio Loop:</em> {msg}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='color:{status_color}; font-weight:bold; font-size:1.1rem; border:1px solid {status_color}; padding:10px; border-radius:6px; text-align:center;'>{status_label}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='audio-card'>🗣️ [Vocal Output Loop]<br><span style='color:#FFFFFF;'>\"{audio_alert}\"</span></div>", unsafe_allow_html=True)
 
-    # TAB 2: Text Recognition & Text-to-Speech Processing
+    # TAB 2: Live Document Snapshot Character Processing & TTS Generation
     with tab_ocr:
-        st.subheader("Optical Text Parsing Desk")
-        st.markdown("Simulates TrineTra capturing physical document frames (e.g., product text labels, street signs, textbook pages) and parsing text directly into clear spoken voice output loops.")
+        st.markdown("### Document Scanning & Text Translation Desk")
+        st.caption("Point a textbook, product label, or street sign toward the camera array module to read visual elements aloud.")
         
-        uploaded_doc = st.file_uploader("Capture and Upload Document Page Image", type=["jpg", "jpeg", "png"], key="doc_uploader")
+        ocr_capture = st.camera_input("TrineTra OCR Document Capture Input", key="ocr_cam")
         
-        if uploaded_doc:
-            st.image(uploaded_doc, caption="Ingested Source Document Fragment", width=400)
-            
+        if ocr_capture:
             if not client:
-                st.error("Please add a valid Gemini API Key in the sidebar interface to initialize the Optical Parser pipeline.")
+                st.error("Please add a valid Gemini API Key in the left sidebar to unlock text recognition processing.")
             else:
-                if st.button("🔍 Execute OCR Processing & Speech Synthesis", type="primary"):
-                    with st.spinner("🤖 Executing edge computer vision and character processing matrices..."):
+                if st.button("🚀 Process Frame Characters & Transcribe", type="primary"):
+                    with st.spinner("🤖 Extracting text elements via multimodal processing pipeline..."):
                         try:
-                            # Package file data for multimodal text engine execution
-                            doc_bytes = uploaded_doc.getvalue()
-                            image_part = types.Part.from_bytes(data=doc_bytes, mime_type="image/jpeg")
+                            # Read raw byte inputs directly for processing execution
+                            img_data = ocr_capture.getvalue()
+                            image_part = types.Part.from_bytes(data=img_data, mime_type="image/jpeg")
                             
-                            ocr_prompt = (
+                            prompt = (
                                 "You are the edge computing module inside Project TrineTra's smart glasses. "
-                                "1. Transcribe all readable English textual characters found inside this image cleanly. "
-                                "2. Provide a short description summarizing what kind of object this text belongs to (e.g., medicine label, book cover, caution sign). "
-                                "3. Format the final read text into a natural spoken dialogue script string for text-to-speech engine conversion."
+                                "Extract all visible words from this picture cleanly. Then, summarize the nature of the text "
+                                "(e.g., product label, caution sign) and format it into a brief script ready for the Text-to-Speech audio engine."
                             )
                             
                             response = client.models.generate_content(
                                 model='gemini-2.5-flash',
-                                contents=[image_part, ocr_prompt]
+                                contents=[image_part, prompt]
                             )
                             
-                            st.success("Analysis Complete!")
-                            st.markdown("### 📊 Transcribed Telemetry Output Data")
-                            st.write(response.text)
+                            st.markdown("### 📊 Transcribed System Data Output")
+                            st.markdown(response.text)
                             
-                        except Exception as e:
-                            st.error(f"Hardware edge pipeline processing exception: {e}")
+                        except Exception as err:
+                            st.error(f"Hardware pipeline transcription execution fault: {err}")

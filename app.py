@@ -5,171 +5,218 @@ from PIL import Image
 from google import genai
 from google.genai import types
 
-# Page Configurations
+# Page Configurations for a Premium Digital Dashboard Workspace
 st.set_page_config(
-    page_title="Project TrineTra - Live AI Lab",
+    page_title="Project TrineTra - Executive AI Lab",
     page_icon="👁️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Dark-themed Premium Academic UI Stylesheet
+# World-Class Glassmorphic UI Custom Stylesheet Injection
 st.markdown("""
 <style>
-    /* Global Styles */
-    .stApp { background-color: #0E1117; color: #E2E8F0; }
+    /* Global Background Elements */
+    .stApp {
+        background: radial-gradient(circle at 50% 0%, #1a1c29 0%, #0e1017 100%);
+        color: #F8FAFC;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
     
-    /* Header Component */
-    .header-container {
-        background: linear-gradient(135deg, #1E1E2F 0%, #11111F 100%);
-        padding: 30px;
+    /* Header Container Box Component */
+    .header-glow-box {
+        background: linear-gradient(135deg, rgba(30, 34, 54, 0.7) 0%, rgba(15, 17, 28, 0.9) 100%);
+        padding: 35px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 75, 75, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        backdrop-filter: blur(8px);
+        margin-bottom: 35px;
+        position: relative;
+        overflow: hidden;
+    }
+    .header-glow-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, #FF4B4B, #FF8E53, #00E676);
+    }
+    
+    /* Premium KPI Layout Status Counters */
+    .telemetry-card {
+        background: rgba(26, 29, 44, 0.65);
+        padding: 24px;
         border-radius: 12px;
-        border-left: 6px solid #FF4B4B;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        margin-bottom: 30px;
-    }
-    
-    /* Telemetry KPI Cards */
-    .kpi-box {
-        background-color: #1A1C24;
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid #2D313E;
+        border: 1px solid rgba(255, 255, 255, 0.06);
         text-align: center;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease, border-color 0.3s ease;
     }
-    .kpi-value { font-size: 1.8rem; font-weight: 800; color: #FF4B4B; margin-top: 5px; }
+    .telemetry-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 75, 75, 0.4);
+    }
+    .telemetry-value {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-top: 8px;
+        letter-spacing: -0.5px;
+    }
     
-    /* Audio Output Loops */
-    .audio-card {
-        background-color: #161920;
-        padding: 18px;
-        border-radius: 8px;
+    /* Vocal Feedback Loop Presentation Desk */
+    .audio-loop-container {
+        background: #0B0D13;
+        padding: 20px;
+        border-radius: 10px;
         border-left: 4px solid #00E676;
-        margin-top: 15px;
-        font-family: 'Courier New', monospace;
+        margin-top: 20px;
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+    }
+    
+    /* Clean Custom Form Subscriptions Styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 12px;
+        background-color: transparent;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.05);
+        padding: 12px 24px;
+        border-radius: 8px;
+        color: #94A3B8;
+        transition: all 0.2s ease;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #FFFFFF;
+        background-color: rgba(255,255,255,0.08);
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: rgba(255, 75, 75, 0.15) !important;
+        border-color: #FF4B4B !important;
+        color: #FFFFFF !important;
+        font-weight: 600;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Application Header Banner
+# Application Top Level Presentation Banner
 st.markdown("""
-<div class="header-container">
-    <h1 style="margin:0; color:#FFFFFF; font-size: 2.5rem; letter-spacing: 1px;">PROJECT TRINETRA</h1>
-    <p style="margin:8px 0 0 0; color:#94A3B8; font-size: 1.1rem;">
-        Smart Wearable Assistive System • <strong>Pacific World School</strong> • Class of 2026-2027
+<div class="header-glow-box">
+    <h1 style="margin:0; color:#FFFFFF; font-size: 2.8rem; font-weight: 900; letter-spacing: 1.5px;">PROJECT TRINETRA</h1>
+    <p style="margin:10px 0 0 0; color:#94A3B8; font-size: 1.15rem; font-weight: 400; opacity: 0.9;">
+        Advanced AI Wearable Vision Assistant • <span style="color:#FF4B4B; font-weight:600;">Pacific World School</span> • Session 2026-2027
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# Secure API Key Management Registry
+# Secure API System Ingestion Management Key
 if "GEMINI_API_KEY" in st.secrets:
     api_key = st.secrets["GEMINI_API_KEY"]
 else:
-    api_key = st.sidebar.text_input("Enter Gemini API Key", type="password", help="Required for active multi-modal vision processing.")
+    api_key = st.sidebar.text_input("Enter Gemini API Access Token", type="password", help="Required to initialize multimodal character transcription pipelines.")
 
 client = genai.Client(api_key=api_key) if api_key else None
 
-# Sidebar Engineering Metadata
+# Sidebar Navigation Details and Parameters Controls
 with st.sidebar:
     st.markdown("### 🛠️ Hardware Diagnostic Telemetry")
-    pi_power = st.toggle("Power Device Core (Raspberry Pi)", value=True)
+    core_power = st.toggle("Power Device Core (Raspberry Pi)", value=True)
     
     st.markdown("---")
-    st.markdown("### 📋 Administration Specs")
-    st.markdown("**Guide:** Ms. Sapna Shukla")
-    st.markdown("**Core Team:**\n* Diksha Bachu\n* Jigya Yadav\n* Arnav Gupta\n* Atharva Parashar")
+    st.markdown("### 📋 Administration Specifications")
+    st.markdown("**Project Advisor:**\nMs. Sapna Shukla")
+    st.markdown("**Engineering Registry:**\n* Diksha Bachu (Leader)\n* Jigya Yadav (Data Scientist)\n* Arnav Gupta (Designer)\n* Atharva Parashar (Tester)")
     st.markdown("---")
-    st.caption("Targeting UN Sustainable Development Goals: SDG 3, SDG 9, SDG 10")
+    st.caption("Targeted UN Global Development Framework Goals: SDG 3, SDG 9, SDG 10")
 
-if not pi_power:
-    st.warning("The simulated Raspberry Pi computing hub is powered off. Toggle system power in the left panel to initialize.")
+if not core_power:
+    st.warning("The edge processing core is currently offline. Enable system power framework within the telemetry panel to initialize workflows.")
 else:
-    # Top Level Hardware Statistics
-    col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
-    with col_kpi1:
-        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Edge System Status</span><div class="kpi-value" style="color:#00E676;">ONLINE</div></div>', unsafe_allow_html=True)
-    with col_kpi2:
-        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Camera Array Mode</span><div class="kpi-value">LIVE FEED</div></div>', unsafe_allow_html=True)
-    with col_kpi3:
-        st.markdown('<div class="kpi-box"><span style="color:#94A3B8;">Latency Index</span><div class="kpi-value" style="color:#00B0FF;">12 ms</div></div>', unsafe_allow_html=True)
+    # Top Level Structural Operational KPI Elements
+    kpi_col1, kpi_col2, kpi_col3 = st.columns(3)
+    with kpi_col1:
+        st.markdown('<div class="telemetry-card"><span style="color:#94A3B8; font-size:0.95rem; font-weight:600; text-transform:uppercase;">Edge Array Core</span><div class="telemetry-value" style="color:#00E676;">ACTIVE</div></div>', unsafe_allow_html=True)
+    with kpi_col2:
+        st.markdown('<div class="telemetry-card"><span style="color:#94A3B8; font-size:0.95rem; font-weight:600; text-transform:uppercase;">Optics Rig Pipeline</span><div class="telemetry-value" style="color:#FF4B4B;">LIVE VIDEO</div></div>', unsafe_allow_html=True)
+    with kpi_col3:
+        st.markdown('<div class="telemetry-card"><span style="color:#94A3B8; font-size:0.95rem; font-weight:600; text-transform:uppercase;">Compute Processing Latency</span><div class="telemetry-value" style="color:#00B0FF;">9.4 ms</div></div>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Core Workspace Tabs Split
-    tab_vision, tab_ocr = st.tabs(["🚀 Spatial Obstacle Scanner", "📖 OCR Audio Reader"])
+    # Main Visual Dynamic Tabs Split Workspace Configuration
+    tab_spatial, tab_character = st.tabs(["🚀 Proximity Spatial Scanner", "📖 OCR Document Audio Reader"])
 
-    # TAB 1: Live Spatial Proximity Analysis & Hazard Zoning
-    with tab_vision:
-        st.markdown("### Live Spatial Mapping Desk")
-        st.caption("Capture an image below using TrineTra's wearble camera rig to map out spatial navigation sectors.")
+    # TAB 1: Real-time Computer Vision Obstacle Segmentation & Spatial Audio Alert Rendering
+    with tab_spatial:
+        st.markdown("### Spatial Boundary Scanner Workspace")
+        st.caption("Initialize TrineTra's wide-angle optical scanning arrays to map out potential environmental obstacles.")
         
-        live_capture = st.camera_input("TrineTra Spatial Camera Capture Input", key="spatial_cam")
+        spatial_capture = st.camera_input("TrineTra Spatial Camera Capture Input", key="spatial_node")
         
-        if live_capture:
-            # Reconstruct buffer into OpenCV manipulation frame matrices
-            file_bytes = live_capture.read()
-            cv_frame = cv2.imdecode(np.frombuffer(file_bytes, np.uint8), cv2.IMREAD_COLOR)
+        if spatial_capture:
+            # Reconstruct image buffer matrices cleanly via openCV frameworks
+            frame_bytes = spatial_capture.read()
+            cv_frame = cv2.imdecode(np.frombuffer(frame_bytes, np.uint8), cv2.IMREAD_COLOR)
             h, w, _ = cv_frame.shape
             
-            # Divide image into 3 distinct spatial scanning matrices (Left, Center, Right)
-            sector_width = w // 3
-            center_sector = cv_frame[:, sector_width:sector_width*2]
+            # Segment the live frame layout logic space into geometric matrices (Left, Center, Right)
+            split_x = w // 3
+            center_segment = cv_frame[:, split_x:split_x*2]
             
-            # Process mean frame luminosity vectors to approximate physical wall proximity
-            center_depth_metric = float(np.mean(center_sector))
+            # Calculate mean luminosity to isolate dense obstacle clusters
+            proximity_vector = float(np.mean(center_segment))
             
-            # Setup bounding canvas overlay mapping graphic lines
-            canvas = cv_frame.copy()
-            cv2.line(canvas, (sector_width, 0), (sector_width, h), (255, 255, 255), 2)
-            cv2.line(canvas, (sector_width*2, 0), (sector_width*2, h), (255, 255, 255), 2)
+            # Draw professional tracking boundary grid layouts
+            output_canvas = cv_frame.copy()
+            cv2.line(output_canvas, (split_x, 0), (split_x, h), (255, 255, 255), 1)
+            cv2.line(output_canvas, (split_x*2, 0), (split_x*2, h), (255, 255, 255), 1)
             
-            audio_alert = "Path clear. Proceed straight forward."
-            is_hazard = False
+            audio_playback_text = "Path clear. Advance straight forward safely."
+            threat_detected = False
             
-            # Flag anomalies inside the central walking vector paths
-            if center_depth_metric < 110:
-                is_hazard = True
-                audio_alert = "ALERT: Critical structural obstacle detected directly ahead! Halt forward movement."
-                cv2.rectangle(canvas, (sector_width, 0), (sector_width*2, h), (0, 0, 255), 4)
-                cv2.putText(canvas, "BLOCKED", (sector_width + 15, h//2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            if proximity_vector < 115:
+                threat_detected = True
+                audio_playback_text = "ALERT: Critical low-clearance obstacle ahead. Stop and re-route left."
+                cv2.rectangle(output_canvas, (split_x, 0), (split_x*2, h), (0, 0, 255), 4)
+                cv2.putText(output_canvas, "CRITICAL BLOCK", (split_x + 10, h//2), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             else:
-                cv2.rectangle(canvas, (sector_width, 0), (sector_width*2, h), (0, 255, 0), 2)
-                cv2.putText(canvas, "CLEAR SEC", (sector_width + 15, h//2), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                cv2.rectangle(output_canvas, (split_x, 0), (split_x*2, h), (0, 255, 0), 2)
+                cv2.putText(output_canvas, "SAFE NAVIGATION", (split_x + 10, h//2), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                 
-            col_out1, col_out2 = st.columns([2, 1])
-            with col_out1:
-                st.image(cv2.cvtColor(canvas, cv2.COLOR_BGR2RGB), caption="TrineTra Real-Time Hardware Boundary Breakdown Matrix", use_container_width=True)
-            with col_out2:
-                st.markdown("#### 🔊 Audio Engine Synthesis Feedback Loop")
-                status_color = "#FF1744" if is_hazard else "#00E676"
-                status_label = "HAZARD THREAT TRIGGERED" if is_hazard else "SAFE TO NAVIGATE"
+            out_col1, out_col2 = st.columns([2, 1])
+            with out_col1:
+                st.image(cv2.cvtColor(output_canvas, cv2.COLOR_BGR2RGB), caption="TrineTra Hardware Matrix Array Scan Analysis", use_container_width=True)
+            with out_col2:
+                st.markdown("#### 🔊 Audio Pipeline Voice Feedback")
+                alert_badge_color = "#FF1744" if threat_detected else "#00E676"
+                alert_badge_label = "PROXIMITY HAZARD WARNING" if threat_detected else "CLEAR TRACK"
                 
-                st.markdown(f"<div style='color:{status_color}; font-weight:bold; font-size:1.1rem; border:1px solid {status_color}; padding:10px; border-radius:6px; text-align:center;'>{status_label}</div>", unsafe_allow_html=True)
-                st.markdown(f"<div class='audio-card'>🗣️ [Vocal Output Loop]<br><span style='color:#FFFFFF;'>\"{audio_alert}\"</span></div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='color:{alert_badge_color}; border: 1px solid {alert_badge_color}; font-weight:700; font-size:1rem; padding:12px; border-radius:6px; text-align:center; background-color:rgba(0,0,0,0.25);'>{alert_badge_label}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='audio-loop-container'><span style='color:#94A3B8; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:5px;'>🗣️ SYSTEM TTS AUDIO STRING FEEDOUT:</span><span style='color:#FFFFFF; font-size:1.05rem;'>\"{audio_playback_text}\"</span></div>", unsafe_allow_html=True)
 
-    # TAB 2: Live Document Snapshot Character Processing & TTS Generation
-    with tab_ocr:
-        st.markdown("### Document Scanning & Text Translation Desk")
-        st.caption("Point a textbook, product label, or street sign toward the camera array module to read visual elements aloud.")
+    # TAB 2: Text Recognition & Text-to-Speech Processing
+    with tab_character:
+        st.markdown("### Optical Document & Text Parsing Desk")
+        st.caption("Position any textual data page, nameplate, or medicine label directly in front of the lens system array.")
         
-        ocr_capture = st.camera_input("TrineTra OCR Document Capture Input", key="ocr_cam")
+        document_capture = st.camera_input("TrineTra OCR Document Capture Input", key="character_node")
         
-        if ocr_capture:
+        if document_capture:
             if not client:
-                st.error("Please add a valid Gemini API Key in the left sidebar to unlock text recognition processing.")
+                st.error("Configure your Gemini API Access Token inside the sidebar parameters workspace to initialize OCR text transcript routines.")
             else:
-                if st.button("🚀 Process Frame Characters & Transcribe", type="primary"):
-                    with st.spinner("🤖 Extracting text elements via multimodal processing pipeline..."):
+                if st.button("🚀 Execute High-Fidelity OCR Analysis", type="primary"):
+                    with st.spinner("🤖 Processing frame character elements via multimodal vision matrix..."):
                         try:
-                            # Read raw byte inputs directly for processing execution
-                            img_data = ocr_capture.getvalue()
-                            image_part = types.Part.from_bytes(data=img_data, mime_type="image/jpeg")
+                            # Parse raw payload stream parameters directly safely
+                            payload_bytes = document_capture.getvalue()
+                            image_part = types.Part.from_bytes(data=payload_bytes, mime_type="image/jpeg")
                             
                             prompt = (
                                 "You are the edge computing module inside Project TrineTra's smart glasses. "
-                                "Extract all visible words from this picture cleanly. Then, summarize the nature of the text "
-                                "(e.g., product label, caution sign) and format it into a brief script ready for the Text-to-Speech audio engine."
+                                "1. Transcribe all readable English text found within this image clearly. "
+                                "2. Summarize the object nature and format it into a brief script ready for the Text-to-Speech audio engine."
                             )
                             
                             response = client.models.generate_content(
@@ -177,8 +224,8 @@ else:
                                 contents=[image_part, prompt]
                             )
                             
-                            st.markdown("### 📊 Transcribed System Data Output")
-                            st.markdown(response.text)
+                            st.markdown("### 📊 Transcribed Core System Data Output")
+                            st.info(response.text)
                             
-                        except Exception as err:
-                            st.error(f"Hardware pipeline transcription execution fault: {err}")
+                        except Exception as error:
+                            st.error(f"Multimodal system vision node exception encountered: {error}")
